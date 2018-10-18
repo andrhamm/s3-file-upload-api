@@ -1,0 +1,29 @@
+{
+  "name": "s3-file-upload-api",
+  "version": "1.0.0",
+  "description": "A demo Serverless application for uploading files to S3 via an API Gateway HTTP endpoint.",
+  "main": "handler.js",
+  "scripts": {
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('You must use Yarn to install, not NPM')\""
+  },
+  "author": "Andrew Hammond",
+  "license": "MIT",
+  "dependencies": {
+    "source-map-support": "^0.5.6"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-source-map-support": "^2.0.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^4.19.1",
+    "serverless": "^1.27.2",
+    "serverless-apigw-binary": "^0.4.4",
+    "serverless-webpack": "^5.1.5",
+    "webpack": "^4.8.3",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "private": true
+}

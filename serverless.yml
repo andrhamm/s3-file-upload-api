@@ -1,0 +1,61 @@
+service:
+  name: s3-file-upload-api
+
+plugins:
+  - serverless-webpack
+  - serverless-apigw-binary
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+    packager: yarn
+  apigwBinary:
+    types:
+      - 'image/jpeg'
+      - 'image/png'
+  s3_bucket_name: ${self:service.name}-${self:provider.stage}
+  s3_bucket_arn:
+    Fn::Join:
+      - ""
+      - - "arn:aws:s3::"
+        - ":${self:custom.s3_bucket_name}"
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'stage'}
+  profile: ${opt:profile}
+  region: us-east-1
+  environment:
+    S3_BUCKET_NAME: ${self:custom.s3_bucket_name}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - s3:*
+      Resource:
+        - ${self:custom.s3_bucket_arn}
+        - Fn::Join:
+          - ""
+          - - "arn:aws:s3::"
+            - ":${self:custom.s3_bucket_name}/*"
+
+package:
+  individually: true
+
+functions:
+  post_file:
+    handler: handler.handler
+    events:
+      - http:
+          path: /file
+          method: post
+          authorizer: aws_iam # Remove this line to make the endpoint completely public (not recommended)
+
+resources:
+  # TODO: create an IAM user and policy for invoking the APIG endpoint
+  Resources:
+    S3BucketReceipts:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3_bucket_name}
