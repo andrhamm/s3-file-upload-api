@@ -14,9 +14,9 @@ Content-Type: image/png
 Host: XXXXXXXXXX.execute-api.us-east-1.amazonaws.com
 Content-Length: 348461
 
-PNG
+PNG
 <BINARY PNG DATA>
-```
+```
 
 ## Deploy
 
